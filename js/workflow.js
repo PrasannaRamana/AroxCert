@@ -65,6 +65,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const viewVerifyUrl = document.getElementById("viewVerifyUrl");
   const viewDescription = document.getElementById("viewDescription");
   const qrcodeContainer = document.getElementById("qrcode");
+  const certPrefixSelect = document.getElementById("certPrefixSelect");
+
+  if (certPrefixSelect) {
+    certPrefixSelect.innerHTML = "";
+    const currentYear = new Date().getFullYear();
+    // Generate years from currentYear + 5 down to 2024
+    for (let year = currentYear + 5; year >= 2024; year--) {
+      const option = document.createElement("option");
+      option.value = `AT/INT/${year}/`;
+      option.textContent = `AT/INT/${year}/`;
+      certPrefixSelect.appendChild(option);
+    }
+    certPrefixSelect.value = `AT/INT/${currentYear}/`;
+  }
 
   const steps = [1, 2, 3, 4, 5, 8]
     .map((step) => document.getElementById(`step${step}`))
@@ -164,10 +178,18 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const verifyCertificate = async () => {
-    const certId = normalizeCertificateId(certIdInput?.value);
+    const certPrefixSelect = document.getElementById("certPrefixSelect");
+    const prefix = certPrefixSelect ? certPrefixSelect.value : "";
+    const certIdSuffix = normalizeCertificateId(certIdInput?.value);
+    
+    let certId = certIdSuffix ? prefix + certIdSuffix : "";
+    if (certIdSuffix && certIdSuffix.startsWith(prefix)) {
+      certId = certIdSuffix;
+    }
+
     const tokenFromUrl = new URLSearchParams(window.location.search).get("token") || "";
 
-    if (!certId) {
+    if (!certIdSuffix) {
       alert("Please enter a Certificate ID.");
       return;
     }
@@ -255,7 +277,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const idFromUrl = urlParams.get("id");
   if (idFromUrl && certIdInput) {
-    certIdInput.value = normalizeCertificateId(idFromUrl);
+    const normalizedId = normalizeCertificateId(idFromUrl);
+    const certPrefixSelect = document.getElementById("certPrefixSelect");
+    if (certPrefixSelect) {
+      let matched = false;
+      for (const option of certPrefixSelect.options) {
+        if (normalizedId.startsWith(option.value)) {
+          certPrefixSelect.value = option.value;
+          certIdInput.value = normalizedId.substring(option.value.length);
+          matched = true;
+          break;
+        }
+      }
+      if (!matched) certIdInput.value = normalizedId;
+    } else {
+      certIdInput.value = normalizedId;
+    }
     verifyCertificate();
   } else {
     activateStep(1);
