@@ -1,0 +1,10 @@
+# ── Dependencies ──────────────────────────────────────────────────
+node_modules/
+
+# ── Local Development Database ───────────────────────────────────
+db/*.sqlite
+db/*.sqlite-wal
+db/*.sqlite-shm
+
+# ── Local Environment ────────────────────────────────────────────
+.env.development

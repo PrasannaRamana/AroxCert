@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arox Tech - Certificate Verification Flow</title>
+  <link rel="icon" type="image/png" href="assets/a logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/workflow.css">
+  
+  <!-- External QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/toast.js"></script>
+</head>
+<body>
+  <a href="https://aroxtech.in/" style="position: absolute; top: 20px; left: 20px; text-decoration: none; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif; font-size: 14px; color: #0A1F44; font-weight: 600; background: #fff; padding: 8px 16px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 10000; border: 1px solid #E2E8F0; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)';">
+    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back
+  </a>
+
+  <!-- ==========================================================================
+       PAGE TITLE HEADER
+       ========================================================================== -->
+  <header class="page-header">
+    <div class="gold-divider left-divider"></div>
+    <div class="header-content">
+      <div class="header-logo-title">
+        <img src="assets/a logo.png" alt="Arox Tech Logo" class="header-logo" style="pointer-events: none; user-select: none;">
+        <h1>Verification page</h1>
+      </div>
+      <p class="subtitle">Verify the authenticity of your certificate in simple steps</p>
+    </div>
+    <div class="gold-divider right-divider"></div>
+  </header>
+
+  <!-- ==========================================================================
+       WORKFLOW GRID CONTAINER
+       ========================================================================== -->
+  <main class="workflow-container">
+    
+    <div class="workflow-wizard" id="workflowGrid">
+      
+      <!-- ==========================================================================
+           ROW 1
+           ========================================================================== -->
+      
+      <!-- STEP 1: Landing Page -->
+      <div class="workflow-card active" id="step1">
+        
+        <div class="card-body">
+          <p class="card-desc">Enter Certificate ID or Scan QR Code</p>
+          <div class="branding-box">
+            <img src="assets/a logo.png" alt="Arox Tech Logo" class="brand-logo" style="pointer-events: none; user-select: none;">
+            <h3 class="portal-title">Verification page</h3>
+          </div>
+          <div class="input-wrapper" style="display: flex; gap: 10px; align-items: stretch;">
+            <select id="certPrefixSelect" class="premium-input" style="width: auto; padding-right: 35px; cursor: pointer; appearance: auto; background-color: #F7FAFC; font-weight: 600; color: #4A5568;">
+            </select>
+            <input type="text" id="certIdInput" class="premium-input" placeholder="e.g. 001" style="flex: 1;">
+          </div>
+          <div class="btn-group">
+            <button id="btnVerifyNow" class="btn-primary">VERIFY NOW</button>
+            <button id="btnScanQr" class="btn-outline">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h3v3h-3zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></svg>
+              SCAN QR CODE
+            </button>
+          </div>
+        </div>
+        <div class="card-footer feature-bar">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 100% Authentic</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Secure Verification</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 24/7 Available</span>
+        </div>
+      </div>
+
+      <!-- STEP 2: Verifying -->
+      <div class="workflow-card inactive" id="step2">
+        
+        <div class="card-body flex-center">
+          <p class="card-desc">System is checking the certificate</p>
+          <div class="loader-container">
+            <svg class="circular-loader" viewBox="25 25 50 50">
+              <circle class="loader-path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+            </svg>
+            <div class="shield-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+          </div>
+          <div id="loaderText" class="loading-text fade-cycle">Verifying Certificate...</div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Verification Success -->
+      <div class="workflow-card inactive" id="step3">
+        
+        <div class="card-body flex-center">
+          <p class="card-desc">Certificate is valid and verified</p>
+          <div class="seal-container">
+            <div class="green-seal pop-in">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 13l4 4L19 7"></path></svg>
+            </div>
+          </div>
+          <h3 class="status-heading success">VERIFIED</h3>
+          <p class="status-subtext">This certificate is authentic and valid.</p>
+          <button id="btnViewDetails" class="btn-primary mt-auto">VIEW DETAILS</button>
+          <button class="btn-outline btn-back" style="margin-top: 10px;" data-back-to="1">BACK</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Certificate Details -->
+      <div class="workflow-card inactive" id="step4">
+        
+        <div class="card-body text-left">
+          <div class="details-list">
+            <div class="detail-row">
+              <span class="detail-label">Certificate ID</span>
+              <span class="detail-value text-gold" id="vdCertId">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Candidate Name</span>
+              <span class="detail-value" id="vdName">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Program</span>
+              <span class="detail-value" id="vdProgram">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Domain</span>
+              <span class="detail-value" id="vdDomain">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Duration</span>
+              <span class="detail-value" id="vdDuration">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Issue Date</span>
+              <span class="detail-value" id="vdIssueDate">--</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Issuing Authority</span>
+              <span class="detail-value">Arox Tech</span>
+            </div>
+          </div>
+          <button id="btnViewCert" class="btn-primary mt-auto">VIEW CERTIFICATE</button>
+          <button class="btn-outline btn-back" style="margin-top: 10px;" data-back-to="3">BACK</button>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           ROW 2
+           ========================================================================== -->
+
+      <!-- STEP 5: Certificate Preview -->
+      <!-- STEP 5: Certificate Preview -->
+<div class="workflow-card inactive" id="step5">
+  <div class="card-body flex-center" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="preview-container" id="certPreviewBox" style="aspect-ratio: auto; height: auto; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; background: #f8fafc; border-radius: 12px; margin-bottom: 20px; width: 100%; padding: 20px; cursor: zoom-in; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05);" onclick="openCertModal()">
+      <div style="width: 320px; height: 452.5px; position: relative;">
+        <div id="certTransformWrapper" style="transform: scale(0.403); transform-origin: top left; width: 794px; height: 1123px; position: absolute; top: 0; left: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+        <div class="cert-scale-wrapper" id="certScaleWrapper">
+        <div id="export-wrapper">
+          <!-- --- Decorative Background Elements --- -->
+          <div class="decorative-elements">
+            <!-- --- Yellow Frame Overlay (Layer 1) --- -->
+            <img src="assets/ChatGPT Image Jun 22, 2026, 12_49_34 AM.png" class="frame-overlay-yellow" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 50; pointer-events: none;" alt="Yellow Frame">
+            <!-- --- Frame Overlay (Layer 2) --- -->
+            <img src="assets/frame.png" class="frame-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: fill; z-index: 51; pointer-events: none;" alt="Certificate Frame">
+
+            <!-- Watermark Company Logo -->
+            <img id="certWatermarkLogo" class="watermark-logo-bg background-layer" src="assets/a logo.png" alt="Company Logo Watermark">
+
+            <!-- LAYER 2: Exact Faded Code Blocks (Large snippets, Consolas/Monaco/Courier New) -->
+            <div class="bg-code-layer background-layer">
+              <!-- Left side snippets -->
+              <div class="code-block code-block-left-top">
+                const<br>
+                function()<br>
+                return;<br>
+                let x = 10;<br>
+                const dev =<br>
+                if(){}<br>
+                =&gt; {}
+              </div>
+              <div class="code-block code-block-left-mid">
+                function generateCertificate() {<br>
+                &nbsp;&nbsp;const name = "Padmapriya V";<br>
+                &nbsp;&nbsp;updatePreview();<br>
+                }
+              </div>
+
+              <!-- Right side snippets -->
+              <div class="code-block code-block-right-top">
+                {}<br>
+                &lt;&gt;<br>
+                &lt;/&gt;<br>
+                01010<br>
+                001101<br>
+                function test()<br>
+                const id<br>
+                []
+              </div>
+              <div class="code-block code-block-right-mid">
+                .certificate {<br>
+                &nbsp;&nbsp;border: 2px solid gold;<br>
+                &nbsp;&nbsp;background: white;<br>
+                }
+              </div>
+            </div>
+
+            <!-- LAYER 3: Binary Numbers (Placed vertically and horizontally) -->
+            <div class="bg-binary-layer background-layer">
+              <div class="binary-val bin-h1">010101</div>
+              <div class="binary-val bin-h2">101010</div>
+              <div class="binary-val bin-v1">110010<br>001101<br>011100</div>
+              <div class="binary-val bin-v2">011100<br>110010<br>101010</div>
+              <div class="binary-val bin-h3">001101</div>
+              <div class="binary-val bin-h4">011100</div>
+            </div>
+
+            <!-- Technology Symbols (minute symbols) -->
+            <div class="bg-symbols-layer background-layer">
+              <div class="tech-symbol sym-left-mid">const</div>
+              <div class="tech-symbol sym-left-lower">let</div>
+              <div class="tech-symbol sym-right-mid">function</div>
+              <div class="tech-symbol sym-right-lower">=&gt;</div>
+              <div class="tech-symbol sym-tl">{}</div>
+              <div class="tech-symbol sym-tr">[]</div>
+              <div class="tech-symbol sym-bl">&lt;&gt;</div>
+              <div class="tech-symbol sym-br">&lt;/&gt;</div>
+              <div class="tech-symbol sym-center">()</div>
+            </div>
+
+            <!-- LAYER 5: SVG Circuit Design & Subtle Blueprint Style -->
+            <svg class="circuit-layer background-layer" viewBox="0 0 800 1131">
+              <!-- Top-Right Circuit Pattern -->
+              <g class="circuit-tr" stroke="#D4AF37" stroke-width="1.5" fill="none">
+                <path d="M 800,80 L 720,80 L 670,130 L 600,130 L 570,160 M 570,160 L 570,200" />
+                <circle cx="570" cy="200" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 670,130 L 670,180 L 640,210 L 600,210" />
+                <circle cx="600" cy="210" r="3" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 750,0 L 750,110 L 710,150 L 630,150 L 600,180 L 520,180" />
+                <circle cx="520" cy="180" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 800,180 L 740,180 L 700,220 L 700,280" />
+                <circle cx="700" cy="280" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 720,160 L 680,200 L 650,200" stroke-dasharray="3,3" stroke-width="1" />
+                <circle cx="650" cy="200" r="2" fill="none" />
+              </g>
+              
+              <!-- Bottom-Left Circuit Pattern -->
+              <g class="circuit-bl" stroke="#D4AF37" stroke-width="1.5" fill="none">
+                <path d="M 0,1050 L 80,1050 L 130,1000 L 200,1000 L 230,970 M 230,970 L 230,930" />
+                <circle cx="230" cy="930" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 130,1000 L 130,950 L 160,920 L 200,920" />
+                <circle cx="200" cy="920" r="3" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 50,1131 L 50,1021 L 90,981 L 170,981 L 200,951 L 280,951" />
+                <circle cx="280" cy="951" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 0,951 L 60,951 L 100,911 L 100,851" />
+                <circle cx="100" cy="851" r="3.5" fill="#D4AF37" stroke="none" />
+                
+                <path d="M 80,971 L 120,931 L 150,931" stroke-dasharray="3,3" stroke-width="1" />
+                <circle cx="150" cy="931" r="2" fill="none" />
+              </g>
+              
+              <!-- Technical Blueprint Elements (Subtle guide lines, arc segments, measuring ticks) -->
+              <g class="blueprint-elements" stroke="#0A1F44" stroke-width="0.8" fill="none" opacity="0.03">
+                <!-- Blueprint border guide paths -->
+                <line x1="45" y1="45" x2="755" y2="45" stroke-dasharray="5,10" />
+                <line x1="45" y1="1086" x2="755" y2="1086" stroke-dasharray="5,10" />
+                <line x1="45" y1="45" x2="45" y2="1086" stroke-dasharray="5,10" />
+                <line x1="755" y1="45" x2="755" y2="1086" stroke-dasharray="5,10" />
+                
+                <!-- Crosshair ticks -->
+                <path d="M 35,45 L 55,45 M 45,35 L 45,55" />
+                <path d="M 745,45 L 765,45 M 755,35 L 755,55" />
+                <path d="M 35,1086 L 55,1086 M 45,1076 L 45,1096" />
+                <path d="M 745,1086 L 765,1086 M 755,1076 L 755,1096" />
+                
+                <!-- Center blueprint geometric circles -->
+                <circle cx="400" cy="565" r="260" stroke-dasharray="2,8" />
+                <circle cx="400" cy="565" r="280" />
+                <circle cx="400" cy="565" r="320" stroke-dasharray="20,10,5,10" />
+                
+                <!-- Blueprint guides near candidate area -->
+                <path d="M 120,565 L 200,565 M 600,565 L 680,565" />
+                <path d="M 400,200 L 400,280 M 400,850 L 400,930" />
+                
+                <!-- Arc segment top left -->
+                <path d="M 45,220 A 180,180 0 0,1 225,45" stroke-dasharray="4,4" />
+                <!-- Arc segment bottom right -->
+                <path d="M 755,911 A 180,180 0 0,1 575,1086" stroke-dasharray="4,4" />
+              </g>
+            </svg>
+
+            <!-- Radial Tech Rings (Center part design) -->
+            <div class="radial-tech-rings background-layer">
+              <div class="ring ring-1"></div>
+              <div class="ring ring-2"></div>
+              <div class="ring ring-3"></div>
+              <div class="ring ring-4"></div>
+              <div class="ring ring-5"></div>
+              <div class="ring ring-6"></div>
+              <div class="ring ring-7"></div>
+              <div class="ring ring-8"></div>
+              <div class="ring ring-9"></div>
+              <div class="ring ring-10"></div>
+              <div class="ring ring-11"></div>
+              <div class="ring ring-12"></div>
+              <div class="ring ring-13"></div>
+              <div class="ring ring-14"></div>
+              <div class="ring-line ring-line-h"></div>
+              <div class="ring-line ring-line-v"></div>
+              <div class="crosshair ch-1"></div>
+              <div class="crosshair ch-2"></div>
+              <div class="crosshair ch-3"></div>
+              <div class="crosshair ch-4"></div>
+            </div>
+
+            <!-- LAYER 7: Golden Dot Matrix Pattern (Right of candidate section, left lower section) -->
+            <div class="bg-dot-matrix-layer background-layer">
+              <!-- Right of candidate name area -->
+              <div class="dot-matrix dm-right-mid">
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+              </div>
+              <!-- Left lower section -->
+              <div class="dot-matrix dm-left-lower">
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+                <div class="dot-row"><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span><span class="matrix-dot"></span></div>
+              </div>
+            </div>
+
+            <!-- Premium Background Waves (Overlay background texture) -->
+            <svg class="bg-waves background-layer" viewBox="0 0 800 1131" width="800" height="1131" preserveAspectRatio="none">
+              <path d="M-100,300 C200,450 300,150 900,350" fill="none" stroke="rgba(212,175,55,0.04)" stroke-width="2" />
+              <path d="M-100,350 C250,480 250,110 1000,300" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="1.5" />
+              <path d="M-100,750 C250,650 450,950 900,800" fill="none" stroke="rgba(212,175,55,0.04)" stroke-width="2" />
+              <path d="M-50,800 C250,700 450,1000 950,850" fill="none" stroke="rgba(212,175,55,0.03)" stroke-width="1.5" stroke-dasharray="4,4" />
+            </svg>
+          </div>
+
+          <div class="cert-container" id="certificate">
+            <!-- ==========================================================================
+                 CERTIFICATE MAIN CONTENT
+                 ========================================================================== -->
+            <div class="cert-content certificate-content">
+            
+            <!-- Company Logo centered -->
+            <div class="cert-logo-container">
+              <!-- Company Logo Image (defaults to assets/logo.png) -->
+              <img id="certLogo" src="assets/logo.png" class="cert-logo-img" alt="Company Logo">
+            </div>
+
+            <!-- Company Slogan -->
+            <div class="cert-slogan">
+              <span>FUTURE</span>
+              <span>INNOVATE</span>
+              <span>GROW</span>
+            </div>
+
+            <!-- Slogan Divider line -->
+            <div class="slogan-divider"></div>
+
+            <!-- Title -->
+            <h1 class="cert-title-h1">CERTIFICATE</h1>
+
+            <!-- Subtitle "OF INTERNSHIP" with lines and diamonds -->
+            <div class="cert-subtitle-wrapper">
+              <div class="subtitle-line subtitle-line-left">
+                <div class="subtitle-diamond"></div>
+              </div>
+              <h2 class="cert-title-h2">OF INTERNSHIP</h2>
+              <div class="subtitle-line subtitle-line-right">
+                <div class="subtitle-diamond"></div>
+              </div>
+            </div>
+
+            <!-- "THIS IS TO CERTIFY THAT" -->
+            <div class="cert-certify-text">This Is To Certify That</div>
+
+            <!-- Recipient Name -->
+            <h3 class="cert-recipient-name" id="viewName">Padmapriya V</h3>
+
+            <!-- "HAS SUCCESSFULLY COMPLETED THE" -->
+            <div class="cert-completed-text">Has Successfully Completed The</div>
+
+            <!-- Custom Clip-path Ribbon Banner -->
+            <div class="cert-banner-wrapper">
+              <div class="cert-banner-gold"></div>
+              <div class="cert-banner-navy">
+                <span class="cert-banner-text" id="viewCourse">WEB DEVELOPMENT INTERNSHIP</span>
+              </div>
+            </div>
+
+            <!-- "DURING THE PERIOD FROM" -->
+            <div class="cert-period-text">During The Period From</div>
+
+              <!-- Dates Row with pills and calendar icons -->
+            <div class="cert-dates-row">
+              
+              <!-- Start Date Pill -->
+              <div class="date-pill">
+                <div class="pill-icon-container">
+                  <!-- SVG Calendar icon -->
+                  <svg fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                </div>
+                <span id="viewStartDate">08 JUNE 2026</span>
+              </div>
+
+              <!-- TO badge -->
+              <div class="to-hexagon">TO</div>
+
+              <!-- End Date Pill -->
+              <div class="date-pill">
+                <span id="viewEndDate">18 JUNE 2026</span>
+                <div class="pill-icon-container">
+                  <!-- SVG Calendar icon -->
+                  <svg fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM7 11h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2zm-8 4h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Description Appreciation Paragraph -->
+            <p class="cert-description" id="viewDescription">
+              During this internship, he/she was found to be dedicated,<br>
+              enthusiastic and hardworking.<br>
+              We wish him/her all the best for future endeavors.
+            </p>
+
+            <!-- Columns Section (Duration, Domain, Date of Issue) -->
+            <div class="cert-info-cards">
+              <!-- Dividers -->
+              <div class="info-divider-left">
+                <div class="info-divider-diamond"></div>
+              </div>
+              <div class="info-divider-right">
+                <div class="info-divider-diamond"></div>
+              </div>
+
+              <!-- Duration Block -->
+              <div class="info-block">
+                <div class="info-icon-circle icon-gold-border">
+                  <!-- Calendar duration icon -->
+                  <svg fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+                </div>
+                <div class="info-title">Duration</div>
+                <div class="info-value" id="viewDuration">30 DAYS</div>
+              </div>
+
+              <!-- Domain Block -->
+              <div class="info-block">
+                <div class="info-icon-circle icon-navy-filled">
+                  <!-- Code icon </> -->
+                  <svg fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                </div>
+                <div class="info-title">Domain</div>
+                <div class="info-value" id="viewDomain">WEB DEVELOPMENT</div>
+              </div>
+
+              <!-- Issue Date Block -->
+              <div class="info-block">
+                <div class="info-icon-circle icon-gold-border">
+                  <!-- Calendar days issue icon -->
+                  <svg fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z"/></svg>
+                </div>
+                <div class="info-title">Date of Issue</div>
+                <div class="info-value" id="viewIssueDate">01 JUNE 2024</div>
+              </div>
+            </div>
+
+            <!-- Signatures and Gold Seal Area -->
+            <div class="cert-bottom-signatures signature-section">
+              
+              <!-- CEO Signature block -->
+              <div class="sig-block">
+                <div class="sig-line">
+                  <div class="sig-line-diamond sld-l"></div>
+                  <div class="sig-line-diamond sld-r"></div>
+                </div>
+                <div class="sig-title">CEO</div>
+                <div class="sig-company">Arox Tech</div>
+              </div>
+
+              <!-- Verification Seal Container -->
+              <div class="seal-badge-container">
+                <div id="qrcode"></div>
+                <img id="certVerifySeal" src="assets/a logo.png" class="verification-seal-img" alt="Verification Seal">
+              </div>
+
+              <!-- Training Head Signature block -->
+              <div class="sig-block">
+                <div class="sig-line">
+                  <div class="sig-line-diamond sld-l"></div>
+                  <div class="sig-line-diamond sld-r"></div>
+                </div>
+                <div class="sig-title">TRAINING HEAD</div>
+                <div class="sig-company">Arox Tech</div>
+              </div>
+            </div>
+
+            <!-- Footer Overlay (Badge ID & Verification URL) -->
+            <div class="cert-footer-overlay">
+              <!-- Rounded navy ID badge -->
+              <div class="cert-id-badge" id="viewCertId">[Certificate ID]</div>
+              <!-- Verify URL text & Globe Icon -->
+              <div class="cert-verify-link">
+                <!-- Globe Icon SVG -->
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>Verify at: <span id="viewVerifyUrl">https://aroxtech.in/verify.html</span></span>
+              </div>
+            </div>
+
+          </div> <!-- /cert-content -->
+
+         </div> <!-- /cert-container -->
+        </div> <!-- /export-wrapper -->
+      </div>
+      </div>
+      </div>
+    </div>
+
+    <button class="btn-outline btn-back" style="margin-top: 10px; width: 100%;" data-back-to="4">BACK TO DETAILS</button>
+  </div>
+</div>
+
+<!-- STEP 8: Invalid Certificate (Fallback) -->
+      <div class="workflow-card fallback inactive" id="step8">
+        
+        <div class="card-body flex-center">
+          <div class="seal-container">
+            <div class="red-seal shake-in">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+            </div>
+          </div>
+          <h3 class="status-heading danger">INVALID</h3>
+          <p class="status-subtext">This certificate is not found in our records.</p>
+          <button id="btnTryAgain" class="btn-danger mt-auto">TRY AGAIN</button>
+          <button class="btn-outline btn-back" style="margin-top: 10px;" data-back-to="1">BACK</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module" src="js/workflow.js"></script>
+
+<!-- Fullscreen Certificate Modal -->
+<div id="certModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 99999; justify-content: center; align-items: center; overflow-y: auto; padding: 40px; cursor: zoom-out;" onclick="closeCertModal()">
+  <button onclick="closeCertModal()" style="position: absolute; top: 20px; right: 30px; background: none; border: none; color: white; font-size: 40px; cursor: pointer; opacity: 0.8; transition: opacity 0.2s;">&times;</button>
+  <div style="width: 635px; height: 898px; position: relative; margin: auto; cursor: default;" onclick="event.stopPropagation()">
+    <!-- The script will move #certTransformWrapper here when opened -->
+  </div>
+</div>
+  
+</body>
+</html>
